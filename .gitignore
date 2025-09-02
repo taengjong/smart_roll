@@ -124,3 +124,109 @@ Thumbs.db
 
 # Simulator
 *.app
+
+# ==========================================
+# Web Project (Next.js) Ignores
+# ==========================================
+
+# Dependencies
+web/node_modules/
+web/.pnp
+web/.pnp.js
+
+# Production builds  
+web/.next/
+web/out/
+web/build/
+web/dist/
+
+# Environment variables
+web/.env
+web/.env.local
+web/.env.development.local
+web/.env.test.local
+web/.env.production.local
+
+# Logs
+web/npm-debug.log*
+web/yarn-debug.log*
+web/yarn-error.log*
+web/lerna-debug.log*
+
+# Runtime data
+web/pids
+web/*.pid
+web/*.seed
+web/*.pid.lock
+
+# Coverage directory used by tools like istanbul
+web/coverage/
+web/*.lcov
+
+# nyc test coverage
+web/.nyc_output
+
+# ESLint cache
+web/.eslintcache
+
+# Optional npm cache directory
+web/.npm
+
+# Optional eslint cache
+web/.eslintcache
+
+# Microbundle cache
+web/.rpt2_cache/
+web/.rts2_cache_cjs/
+web/.rts2_cache_es/
+web/.rts2_cache_umd/
+
+# Optional REPL history
+web/.node_repl_history
+
+# Output of 'npm pack'
+web/*.tgz
+
+# Yarn Integrity file
+web/.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+web/.cache
+web/.parcel-cache
+
+# Stores VSCode versions used for testing VSCode extensions
+web/.vscode-test
+
+# Storybook build outputs
+web/.out
+web/.storybook-out
+
+# Temporary folders
+web/tmp/
+web/temp/
+
+# TypeScript cache
+web/*.tsbuildinfo
+
+# Vercel
+web/.vercel
+
+# PWA files
+web/sw.js
+web/sw.js.map
+web/workbox-*.js
+web/workbox-*.js.map
+
+# Next.js build output
+web/.next/
+
+# Nuxt.js build / generate output
+web/.nuxt
+web/dist
+
+# Gatsby files
+web/.cache/
+web/public
+
+# Turbo
+web/.turbo
