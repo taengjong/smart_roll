@@ -269,11 +269,17 @@ interface AdminDashboardProps {
 ## 6. 개발 로드맵 (3개월)
 
 ### 📅 1개월차: 기반 구조 및 인증
-**주차 1-2: 프로젝트 설정**
-- [ ] Next.js 14 + TypeScript 프로젝트 초기화
-- [ ] Supabase 프로젝트 생성 및 데이터베이스 스키마 구축
-- [ ] Tailwind CSS + shadcn/ui 설정
-- [ ] 기본 라우팅 구조 설정
+**주차 1-2: 프로젝트 설정** ✅ **완료 (2025-09-02)**
+- [x] Next.js 14 + TypeScript 프로젝트 초기화 ✅
+- [x] 데이터베이스 스키마 생성 (supabase-schema.sql) ✅ 
+- [x] Tailwind CSS + shadcn/ui 설정 ✅
+- [x] 기본 라우팅 구조 설정 ✅
+- [x] 기본 UI 컴포넌트 (Button, Card) ✅
+- [x] TypeScript 타입 정의 ✅
+- [x] PWA 기본 설정 (manifest.json) ✅
+- [x] 프로젝트 문서화 (README.md) ✅
+- [x] Git 설정 (.gitignore 업데이트) ✅
+- [ ] Supabase 프로젝트 생성 및 스키마 실행 🔄 **진행 예정**
 
 **주차 3-4: 인증 시스템**
 - [ ] Supabase Auth 연동
@@ -455,25 +461,59 @@ export const useRealtimeAttendance = (classId: string) => {
 
 ## 12. 다음 단계
 
-### 즉시 시작 가능한 작업
-1. **개발 환경 구축**
-   ```bash
-   npx create-next-app@latest smart-roll-web --typescript --tailwind --eslint --app
-   cd smart-roll-web
-   npm install @supabase/supabase-js
-   ```
+## 📈 프로젝트 진행 현황
 
-2. **Supabase 프로젝트 생성**
+### ✅ 완료된 작업 (2025-09-02)
+1. **개발 환경 구축** ✅
+   - Next.js 15.5.2 프로젝트 생성 완료
+   - TypeScript + Tailwind CSS 설정 완료
+   - 필수 패키지 설치 완료 (@supabase/supabase-js, shadcn/ui 등)
+
+2. **프로젝트 기반 구조** ✅
+   - 디렉토리 구조 설정 완료 (app/, components/, lib/, types/ 등)
+   - 기본 UI 컴포넌트 생성 (Button, Card)
+   - Tailwind 테마 및 CSS 변수 설정 완료
+   - TypeScript 데이터베이스 타입 정의 완료
+
+3. **데이터베이스 설계** ✅
+   - 완전한 Supabase SQL 스키마 파일 생성 (supabase-schema.sql)
+   - RLS 정책 및 트리거 함수 포함
+   - 샘플 데이터 포함
+
+4. **PWA 기본 설정** ✅
+   - manifest.json 생성 완료
+   - 메타데이터 설정 완료
+
+5. **프로젝트 문서화** ✅
+   - 상세한 README.md 작성 완료
+   - 설치/실행 가이드 포함
+   - Git 설정 (.gitignore) 완료
+
+6. **개발 서버 테스트** ✅
+   - 로컬 개발 환경 정상 동작 확인 (http://localhost:3000)
+
+### 🔄 다음 단계
+1. **Supabase 프로젝트 생성**
    - https://supabase.com 에서 새 프로젝트 생성
-   - 데이터베이스 스키마 실행
+   - supabase-schema.sql 파일을 SQL Editor에서 실행
+   - 환경 변수 설정 (.env.local)
 
-3. **기본 페이지 구조 생성**
-   - 로그인/회원가입 페이지
-   - 메인 대시보드 레이아웃
+2. **인증 시스템 구현**
+   - 로그인/회원가입 페이지 구현
+   - Supabase Auth 연동
+   - 사용자 프로필 관리
+
+3. **기본 대시보드 구조 생성**
+   - 학생용 대시보드 레이아웃
+   - 관리자용 대시보드 레이아웃
+   - 네비게이션 구조
 
 ### 성공을 위한 핵심 포인트
 - **사용자 피드백 우선**: 완벽한 기능보다 사용자가 원하는 기능 먼저
 - **점진적 개선**: MVP → 피드백 → 개선 사이클 반복
 - **모바일 최적화**: 대부분의 사용자가 모바일로 접근할 것
 
-이 설계 문서를 바탕으로 바로 개발을 시작할 수 있습니다! 🚀
+### 📊 전체 진행률
+**주차 1-2 프로젝트 설정: 90% 완료** ✅
+- 초기 설정 및 기반 구조 완료
+- Supabase 연결만 남은 상태
