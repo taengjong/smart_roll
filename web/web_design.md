@@ -268,31 +268,48 @@ interface AdminDashboardProps {
 
 ## 6. 개발 로드맵 (3개월)
 
-### 📅 1개월차: 기반 구조 및 인증
+### 📅 1개월차: 기반 구조 및 핵심 기능
 **주차 1-2: 프로젝트 설정** ✅ **완료 (2025-09-02)**
-- [x] Next.js 14 + TypeScript 프로젝트 초기화 ✅
+- [x] Next.js 15.5.2 + TypeScript 프로젝트 초기화 ✅
 - [x] 데이터베이스 스키마 생성 (supabase-schema.sql) ✅ 
 - [x] Tailwind CSS + shadcn/ui 설정 ✅
 - [x] 기본 라우팅 구조 설정 ✅
-- [x] 기본 UI 컴포넌트 (Button, Card) ✅
+- [x] 기본 UI 컴포넌트 (Button, Card, NavigationMenu) ✅
 - [x] TypeScript 타입 정의 ✅
 - [x] PWA 기본 설정 (manifest.json) ✅
-- [x] 프로젝트 문서화 (README.md) ✅
+- [x] 프로젝트 문서화 (README.md, SUPABASE_SETUP.md) ✅
 - [x] Git 설정 (.gitignore 업데이트) ✅
-- [ ] Supabase 프로젝트 생성 및 스키마 실행 🔄 **진행 예정**
+- [x] Supabase 프로젝트 생성 및 스키마 실행 ✅
+- [x] Supabase 연결 테스트 및 디버깅 완료 ✅
 
-**주차 3-4: 인증 시스템**
+**주차 2-3: 대시보드 및 레이아웃** ✅ **완료 (2025-09-03)**
+- [x] 반응형 헤더 네비게이션 구현 (모바일/데스크톱) ✅
+- [x] 사이드바 메뉴 시스템 (역할별 메뉴 분리) ✅
+- [x] 대시보드 레이아웃 컴포넌트 ✅
+- [x] 학생용 대시보드 페이지 (통계, 오늘 수업, 출석 기록) ✅
+- [x] 관리자용 대시보드 페이지 (전체 현황, 빠른 액션) ✅
+- [x] 랜딩 페이지 개선 (Hero 섹션, 기능 소개, CTA) ✅
+
+**주차 3-4: 출석 관리 시스템** ✅ **완료 (2025-09-03)**
+- [x] 출석 체크 API 라우트 구현 (`POST /api/attendance/check`) ✅
+- [x] 오늘의 수업 조회 API (`GET /api/attendance/today/[userId]`) ✅
+- [x] 출석 이력 조회 API (`GET /api/attendance/history/[userId]`) ✅
+- [x] 출석 체크 버튼 컴포넌트 (상태별 UI 변화) ✅
+- [x] 오늘의 수업 컴포넌트 (실시간 새로고침) ✅
+- [x] 출석 이력 및 통계 컴포넌트 ✅
+- [x] 출석 관리 통합 페이지 (`/attendance`) ✅
+- [x] 테스트 데이터 스크립트 작성 ✅
+- [x] 권한 검증 및 날짜 검증 로직 ✅
+- [x] 수강권 자동 관리 (남은 수업 수 감소) ✅
+
+**주차 4: 인증 시스템** 🔄 **진행 예정**
 - [ ] Supabase Auth 연동
 - [ ] 로그인/회원가입 페이지 구현
 - [ ] 사용자 프로필 관리 기능
 - [ ] 역할 기반 접근 제어 (학생/관리자)
 
-### 📅 2개월차: 핵심 기능 구현
-**주차 5-6: 출석 시스템**
-- [ ] 출석 체크 기능 구현
-- [ ] 수업 일정 조회 화면
-- [ ] 출석 이력 표시 기능
-- [ ] 실시간 출석 현황 업데이트
+### 📅 2개월차: 고급 기능 구현
+**주차 5-6: 관리자 기능**
 
 **주차 7-8: 수업 관리 시스템**
 - [ ] 수강권 관리 기능
@@ -325,14 +342,24 @@ GET /api/auth/profile - 현재 사용자 프로필 조회
 PUT /api/auth/profile - 사용자 프로필 업데이트
 ```
 
-#### 출석 관련
+#### 출석 관련 ✅ **구현 완료**
 ```typescript
-// app/api/attendance/route.ts
-POST /api/attendance - 출석 체크
-GET /api/attendance/[userId] - 특정 사용자 출석 이력
+// app/api/attendance/check/route.ts
+POST /api/attendance/check - 출석 체크
+// Body: { classId: string, userId: string }
+// 기능: 권한 검증, 날짜 검증, 수강권 자동 관리
 
-// app/api/attendance/[classId]/route.ts
-PUT /api/attendance/[classId] - 출석 상태 업데이트 (관리자)
+// app/api/attendance/today/[userId]/route.ts  
+GET /api/attendance/today/[userId] - 오늘 예정된 수업 목록 조회
+// 반환: 오늘 수업, 활성 수강권, 주간 출석 통계
+
+// app/api/attendance/history/[userId]/route.ts
+GET /api/attendance/history/[userId] - 출석 이력 및 통계 조회
+// 쿼리: ?limit=10&offset=0
+// 반환: 출석 기록, 출석률, 코스별 통계
+
+// app/api/test-supabase/route.ts
+GET /api/test-supabase - Supabase 연결 테스트
 ```
 
 #### 수업 관리
@@ -463,57 +490,105 @@ export const useRealtimeAttendance = (classId: string) => {
 
 ## 📈 프로젝트 진행 현황
 
-### ✅ 완료된 작업 (2025-09-02)
-1. **개발 환경 구축** ✅
-   - Next.js 15.5.2 프로젝트 생성 완료
-   - TypeScript + Tailwind CSS 설정 완료
-   - 필수 패키지 설치 완료 (@supabase/supabase-js, shadcn/ui 등)
+### ✅ 완료된 작업 (2025-09-03 업데이트)
 
-2. **프로젝트 기반 구조** ✅
-   - 디렉토리 구조 설정 완료 (app/, components/, lib/, types/ 등)
-   - 기본 UI 컴포넌트 생성 (Button, Card)
-   - Tailwind 테마 및 CSS 변수 설정 완료
-   - TypeScript 데이터베이스 타입 정의 완료
+#### 1. **개발 환경 구축** ✅ **완료**
+- Next.js 15.5.2 + TypeScript 프로젝트 생성
+- Tailwind CSS + shadcn/ui 컴포넌트 시스템 설정
+- 필수 패키지 설치 (@supabase/supabase-js, lucide-react, class-variance-authority 등)
+- 개발 서버 정상 동작 확인 (http://localhost:3001)
 
-3. **데이터베이스 설계** ✅
-   - 완전한 Supabase SQL 스키마 파일 생성 (supabase-schema.sql)
-   - RLS 정책 및 트리거 함수 포함
-   - 샘플 데이터 포함
+#### 2. **데이터베이스 및 백엔드** ✅ **완료**
+- 완전한 Supabase 스키마 설계 및 구현 (5개 테이블)
+- RLS 정책 및 트리거 함수 구현
+- Supabase 프로젝트 연결 및 테스트 완료
+- Service Role 및 Anonymous 클라이언트 설정
+- API 라우트 구현 (출석 체크, 이력 조회, 오늘 수업)
+- 테스트 데이터 스크립트 작성
 
-4. **PWA 기본 설정** ✅
-   - manifest.json 생성 완료
-   - 메타데이터 설정 완료
+#### 3. **UI/UX 및 레이아웃 시스템** ✅ **완료**
+- 반응형 헤더 네비게이션 (모바일/데스크톱)
+- 사이드바 메뉴 시스템 (역할별 메뉴 분리)
+- 대시보드 레이아웃 컴포넌트
+- 학생용/관리자용 대시보드 페이지
+- 프로페셔널 랜딩 페이지 (Hero, 기능 소개, CTA)
+- 완전한 모바일 최적화
 
-5. **프로젝트 문서화** ✅
-   - 상세한 README.md 작성 완료
-   - 설치/실행 가이드 포함
-   - Git 설정 (.gitignore) 완료
+#### 4. **출석 관리 시스템** ✅ **완료**
+- **API 엔드포인트**: 
+  - `POST /api/attendance/check` - 출석 체크
+  - `GET /api/attendance/today/[userId]` - 오늘 수업 조회
+  - `GET /api/attendance/history/[userId]` - 출석 이력 및 통계
+- **React 컴포넌트**:
+  - `AttendanceButton` - 스마트 출석 체크 버튼
+  - `TodayClasses` - 오늘의 수업 목록 (실시간 새로고침)
+  - `AttendanceHistory` - 출석 이력 및 통계 (출석률, 코스별 통계)
+- **주요 기능**:
+  - 권한 검증 (본인 수업만 출석 가능)
+  - 날짜 검증 (수업 당일만 출석 체크 가능)
+  - 수강권 자동 관리 (남은 수업 수 자동 감소)
+  - 실시간 상태 업데이트
+  - 출석률 및 통계 계산
+- **테스트 환경**: `/attendance` 페이지에서 완전한 테스트 가능
 
-6. **개발 서버 테스트** ✅
-   - 로컬 개발 환경 정상 동작 확인 (http://localhost:3000)
+#### 5. **문서화 및 설정** ✅ **완료**
+- README.md (상세한 설치/실행 가이드)
+- SUPABASE_SETUP.md (Supabase 설정 가이드)
+- Git 설정 (.gitignore) 업데이트
+- PWA 기본 설정 (manifest.json)
+- TypeScript 타입 정의 완료
 
-### 🔄 다음 단계
-1. **Supabase 프로젝트 생성**
-   - https://supabase.com 에서 새 프로젝트 생성
-   - supabase-schema.sql 파일을 SQL Editor에서 실행
-   - 환경 변수 설정 (.env.local)
+### 🏗 **구현된 파일 구조**
+```
+web/
+├── app/
+│   ├── api/attendance/          # 출석 관리 API
+│   ├── attendance/              # 출석 페이지
+│   ├── dashboard/               # 대시보드
+│   └── test-supabase/          # Supabase 연결 테스트
+├── components/
+│   ├── attendance/             # 출석 관련 컴포넌트
+│   ├── layout/                 # 레이아웃 컴포넌트
+│   └── ui/                     # 기본 UI 컴포넌트
+├── lib/                        # 유틸리티 (Supabase 클라이언트)
+├── hooks/                      # Custom React Hooks
+├── scripts/                    # 테스트 데이터 스크립트
+└── types/                      # TypeScript 타입 정의
+```
 
-2. **인증 시스템 구현**
-   - 로그인/회원가입 페이지 구현
+### 🔄 **다음 단계 우선순위**
+
+#### 높은 우선순위
+1. **사용자 인증 시스템**
    - Supabase Auth 연동
-   - 사용자 프로필 관리
+   - 로그인/회원가입 페이지
+   - 세션 관리 및 보안
 
-3. **기본 대시보드 구조 생성**
-   - 학생용 대시보드 레이아웃
-   - 관리자용 대시보드 레이아웃
-   - 네비게이션 구조
+2. **관리자 기능**
+   - 학생 관리 (등록/수정/삭제)
+   - 대리 출석 처리
+   - 수강권 발급 및 관리
 
-### 성공을 위한 핵심 포인트
-- **사용자 피드백 우선**: 완벽한 기능보다 사용자가 원하는 기능 먼저
-- **점진적 개선**: MVP → 피드백 → 개선 사이클 반복
-- **모바일 최적화**: 대부분의 사용자가 모바일로 접근할 것
+#### 중간 우선순위  
+3. **수업 관리 시스템**
+   - 수업 스케줄 등록/수정
+   - 학생별 수업 할당
+   - 수업 취소/변경 처리
 
-### 📊 전체 진행률
-**주차 1-2 프로젝트 설정: 90% 완료** ✅
-- 초기 설정 및 기반 구조 완료
-- Supabase 연결만 남은 상태
+4. **실시간 기능 강화**
+   - Supabase Realtime 연동
+   - 푸시 알림 (PWA)
+
+### 📊 **전체 진행률: 약 40% 완료** ✅
+
+**완료**: 기반 인프라, 출석 관리 핵심 기능  
+**진행 중**: 사용자 인증 시스템 설계  
+**대기**: 관리자 기능, 고급 기능들
+
+### 🎯 **주요 성과**
+- **완전한 출석 체크 시스템** 구현 및 테스트 완료
+- **확장 가능한 아키텍처** 구축
+- **모바일 우선 반응형 디자인** 완성
+- **실용적인 MVP** 수준 달성
+
+다음 단계로 **인증 시스템**을 구현하면 실제 서비스 런칭이 가능한 수준입니다! 🚀
