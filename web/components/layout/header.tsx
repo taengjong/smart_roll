@@ -5,15 +5,10 @@ import { Button } from '@/components/ui/button'
 import { NavigationMenu, NavigationMenuList, NavigationMenuItem } from '@/components/ui/navigation-menu'
 import { Menu, X, User, LogOut } from 'lucide-react'
 import { useState } from 'react'
+import { useAuth } from '@/hooks/use-auth'
 
-interface HeaderProps {
-  user?: {
-    name: string
-    role: 'student' | 'admin'
-  } | null
-}
-
-export function Header({ user }: HeaderProps) {
+export function Header() {
+  const { user, signOut } = useAuth()
   const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   const toggleMenu = () => {
@@ -38,7 +33,7 @@ export function Header({ user }: HeaderProps) {
                       대시보드
                     </Link>
                   </NavigationMenuItem>
-                  {user.role === 'admin' && (
+                  {user?.profile?.role === 'admin' && (
                     <>
                       <NavigationMenuItem>
                         <Link href="/admin/students" className="text-sm font-medium hover:text-primary transition-colors">
@@ -57,7 +52,7 @@ export function Header({ user }: HeaderProps) {
                       </NavigationMenuItem>
                     </>
                   )}
-                  {user.role === 'student' && (
+                  {user?.profile?.role === 'student' && (
                     <>
                       <NavigationMenuItem>
                         <Link href="/attendance" className="text-sm font-medium hover:text-primary transition-colors">
@@ -80,12 +75,12 @@ export function Header({ user }: HeaderProps) {
                 <>
                   <div className="flex items-center space-x-2 text-sm">
                     <User className="h-4 w-4" />
-                    <span>{user.name}</span>
+                    <span>{user.profile?.name || user.email}</span>
                     <span className="text-xs bg-muted px-2 py-1 rounded">
-                      {user.role === 'admin' ? '관리자' : '학생'}
+                      {user.profile?.role === 'admin' ? '관리자' : '학생'}
                     </span>
                   </div>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" onClick={signOut}>
                     <LogOut className="h-4 w-4 mr-2" />
                     로그아웃
                   </Button>
@@ -93,10 +88,10 @@ export function Header({ user }: HeaderProps) {
               ) : (
                 <>
                   <Button variant="ghost" asChild>
-                    <Link href="/login">로그인</Link>
+                    <Link href="/auth/login">로그인</Link>
                   </Button>
                   <Button asChild>
-                    <Link href="/register">회원가입</Link>
+                    <Link href="/auth/register">회원가입</Link>
                   </Button>
                 </>
               )}
@@ -119,9 +114,9 @@ export function Header({ user }: HeaderProps) {
                 <>
                   <div className="flex items-center space-x-2 text-sm border-b pb-3">
                     <User className="h-4 w-4" />
-                    <span>{user.name}</span>
+                    <span>{user.profile?.name || user.email}</span>
                     <span className="text-xs bg-muted px-2 py-1 rounded">
-                      {user.role === 'admin' ? '관리자' : '학생'}
+                      {user.profile?.role === 'admin' ? '관리자' : '학생'}
                     </span>
                   </div>
                   
@@ -134,7 +129,7 @@ export function Header({ user }: HeaderProps) {
                       대시보드
                     </Link>
                     
-                    {user.role === 'admin' ? (
+                    {user.profile?.role === 'admin' ? (
                       <>
                         <Link 
                           href="/admin/students" 
@@ -178,7 +173,7 @@ export function Header({ user }: HeaderProps) {
                     )}
                   </div>
                   
-                  <Button variant="ghost" size="sm" className="w-full justify-start">
+                  <Button variant="ghost" size="sm" className="w-full justify-start" onClick={signOut}>
                     <LogOut className="h-4 w-4 mr-2" />
                     로그아웃
                   </Button>
@@ -186,10 +181,10 @@ export function Header({ user }: HeaderProps) {
               ) : (
                 <div className="space-y-2">
                   <Button variant="ghost" className="w-full justify-start" asChild>
-                    <Link href="/login" onClick={() => setIsMenuOpen(false)}>로그인</Link>
+                    <Link href="/auth/login" onClick={() => setIsMenuOpen(false)}>로그인</Link>
                   </Button>
                   <Button className="w-full" asChild>
-                    <Link href="/register" onClick={() => setIsMenuOpen(false)}>회원가입</Link>
+                    <Link href="/auth/register" onClick={() => setIsMenuOpen(false)}>회원가입</Link>
                   </Button>
                 </div>
               )}

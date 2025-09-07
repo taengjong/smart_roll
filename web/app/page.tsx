@@ -12,10 +12,10 @@ export default function Home() {
           <div className="text-2xl font-bold text-primary">SmartRoll</div>
           <div className="space-x-4">
             <Button variant="ghost" asChild>
-              <Link href="/login">로그인</Link>
+              <Link href="/auth/login">로그인</Link>
             </Button>
             <Button asChild>
-              <Link href="/register">회원가입</Link>
+              <Link href="/auth/register">회원가입</Link>
             </Button>
           </div>
         </div>
@@ -128,7 +128,7 @@ export default function Home() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button size="lg" variant="secondary" asChild>
-              <Link href="/register">무료로 시작하기</Link>
+              <Link href="/auth/register">무료로 시작하기</Link>
             </Button>
             <Button size="lg" variant="outline" className="border-white text-white hover:bg-white hover:text-primary" asChild>
               <Link href="/dashboard">데모 체험하기</Link>

@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
+import { useAuth } from '@/hooks/use-auth'
 import { 
   LayoutDashboard, 
   Calendar, 
@@ -15,15 +16,9 @@ import {
   BarChart3
 } from 'lucide-react'
 
-interface SidebarProps {
-  user?: {
-    name: string
-    role: 'student' | 'admin'
-  } | null
-}
-
-export function Sidebar({ user }: SidebarProps) {
+export function Sidebar() {
   const pathname = usePathname()
+  const { user } = useAuth()
 
   if (!user) return null
 
@@ -88,7 +83,7 @@ export function Sidebar({ user }: SidebarProps) {
     }
   ]
 
-  const menuItems = user.role === 'admin' ? adminMenuItems : studentMenuItems
+  const menuItems = user.profile?.role === 'admin' ? adminMenuItems : studentMenuItems
 
   return (
     <div className="hidden lg:flex lg:w-64 lg:flex-col lg:fixed lg:inset-y-0 lg:border-r lg:bg-background/95 lg:backdrop-blur">
@@ -127,10 +122,10 @@ export function Sidebar({ user }: SidebarProps) {
           <div className="flex items-center space-x-3">
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium truncate">
-                {user.name}
+                {user.profile?.name || user.email}
               </p>
               <p className="text-xs text-muted-foreground">
-                {user.role === 'admin' ? '관리자' : '학생'}
+                {user.profile?.role === 'admin' ? '관리자' : '학생'}
               </p>
             </div>
           </div>

@@ -3,6 +3,8 @@
 import { DashboardLayout } from '@/components/layout/dashboard-layout'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
+import { useAuth } from '@/hooks/use-auth'
+import { AuthenticatedRoute } from '@/components/auth/protected-route'
 import { 
   Calendar, 
   CheckSquare, 
@@ -13,29 +15,28 @@ import {
   AlertTriangle
 } from 'lucide-react'
 
-// 임시 사용자 데이터 (나중에 실제 인증에서 가져올 예정)
-const mockUser = {
-  name: '홍길동',
-  role: 'student' as const
-}
-
-const mockAdminUser = {
-  name: '관리자',
-  role: 'admin' as const
-}
-
 export default function DashboardPage() {
-  // TODO: 실제 사용자 정보는 인증 시스템에서 가져오기
-  const user = mockUser
+  return (
+    <AuthenticatedRoute>
+      <DashboardContent />
+    </AuthenticatedRoute>
+  )
+}
+
+function DashboardContent() {
+  const { user } = useAuth()
   
-  if (user.role === 'student') {
-    return <StudentDashboard user={user} />
+  if (!user) return null
+  
+  if (user.profile?.role === 'admin') {
+    return <AdminDashboard />
   } else {
-    return <AdminDashboard user={mockAdminUser} />
+    return <StudentDashboard />
   }
 }
 
-function StudentDashboard({ user }: { user: { name: string; role: 'student' } }) {
+function StudentDashboard() {
+  const { user } = useAuth()
   // TODO: 실제 데이터로 교체
   const todayClasses = [
     {
@@ -60,10 +61,10 @@ function StudentDashboard({ user }: { user: { name: string; role: 'student' } })
   }
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <div className="space-y-6">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">안녕하세요, {user.name}님! 👋</h1>
+          <h1 className="text-3xl font-bold tracking-tight">안녕하세요, {user?.profile?.name || user?.email}님! 👋</h1>
           <p className="text-muted-foreground">
             오늘의 수업 일정과 출석 현황을 확인하세요.
           </p>
@@ -192,7 +193,8 @@ function StudentDashboard({ user }: { user: { name: string; role: 'student' } })
   )
 }
 
-function AdminDashboard({ user }: { user: { name: string; role: 'admin' } }) {
+function AdminDashboard() {
+  const { user } = useAuth()
   // TODO: 실제 데이터로 교체
   const stats = {
     todayAttendance: { attended: 8, total: 12 },
@@ -202,7 +204,7 @@ function AdminDashboard({ user }: { user: { name: string; role: 'admin' } }) {
   }
 
   return (
-    <DashboardLayout user={user}>
+    <DashboardLayout>
       <div className="space-y-6">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">관리자 대시보드 👨‍💼</h1>
